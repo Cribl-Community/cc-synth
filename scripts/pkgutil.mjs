@@ -149,6 +149,11 @@ export async function createAppPack(dev = false) {
     JSON.stringify(packageInfo, null, 2)
   );
 
+  const readmePath = join(rootDir, 'README.md');
+  if (await pathExists(readmePath)) {
+    await cp(readmePath, join(buildDir, 'README.md'));
+  }
+
   const child = spawn(
     'tar',
     ['-czf', '-', '-C', 'package-build', '.'],
